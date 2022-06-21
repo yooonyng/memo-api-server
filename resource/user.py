@@ -7,11 +7,10 @@ from flask_restful import Resource
 from mysql.connector.errors import Error
 from mysql_connection import get_connection
 import mysql.connector
-
 from email_validator import validate_email, EmailNotValidError
-
 from utils import check_password, hash_password
 
+# 회원가입
 class UserRegisterResource(Resource) :
 
     def post(self) :
@@ -82,7 +81,7 @@ class UserRegisterResource(Resource) :
         return {'result' : 'success', 
                 'access_token' : access_token}, 200
 
-
+# 로그인
 class UserLoginResource(Resource) : 
     def post(self) :
         # 1. 클라이언트로부터 데이터 받아온다.
@@ -104,7 +103,6 @@ class UserLoginResource(Resource) :
             
             # select 문은, dictionary = True 를 해준다.
             cursor = connection.cursor(dictionary = True)
-
             cursor.execute(query, record)
 
             # select 문은, 아래 함수를 이용해서, 데이터를 가져온다.
@@ -154,9 +152,9 @@ class UserLoginResource(Resource) :
         return {'result' : 'success' , 
                 'access_token' : access_token}, 200
 
-
 jwt_blacklist = set()
 
+# 로그아웃
 class UserLogoutResource(Resource) :
 
     @jwt_required()
