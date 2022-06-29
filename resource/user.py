@@ -16,9 +16,10 @@ class UserRegisterResource(Resource) :
     def post(self) :
         # 1. 클라이언트로부터 넘어온 데이터를 받는다.
         # {
-        #     "email": "abc@naver.com",
+        #     "email": "qqq@naver.com",
         #     "password": "1234",
-        #     "nickname": "홍길동"
+        #     "name": "곽두팔",
+        #     "gender": "Male"
         # }
 
         data = request.get_json()
@@ -46,12 +47,12 @@ class UserRegisterResource(Resource) :
 
             # 2. 쿼리문 만들기
             query = '''insert into user
-                    (email, password, nickname)
+                    (name,email,password,gender)
                     values
-                    (%s, %s , %s);'''
+                    (%s, %s, %s, %s);'''
             
-            record = (data['email'], hashed_password, 
-                        data['nickname'] )
+            record = (data['name'], data['email'], 
+                     hashed_password, data['gender'] )
 
             # 3. 커서를 가져온다.
             cursor = connection.cursor()
